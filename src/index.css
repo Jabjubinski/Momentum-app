@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@theme {
+  --font-fredoka: Fredoka, sans-serif;
+  --font-firago: Firago, sans-serif;
+}
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("fonts/Fredoka/FredokaOne-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Two.otf");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Four.otf");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Six.otf");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Eight.otf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Hair.otf");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Thin.otf");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-UltraLight.otf");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-ExtraLight.otf");
+  font-weight: 250;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Light.otf");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Book.otf");
+  font-weight: 350;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Regular.otf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Medium.otf");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-SemiBold.otf");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Bold.otf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-ExtraBold.otf");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("fonts/Firago/FiraGO-Heavy.otf");
+  font-weight: 900;
+  font-style: normal;
+}
