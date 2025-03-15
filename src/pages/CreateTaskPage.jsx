@@ -1,40 +1,11 @@
 import React from "react";
 import Container from "../components/Container";
-import Select from "react-select"; // Import react-select
-import pfp from "./pfp.png"; // Import your image
+import Select from "react-select";
+import { employeeOptions } from "./optionsArray";
+import { priorityOptions } from "./optionsArray";
+import { status } from "./optionsArray";
 
 export default function CreateTaskPage() {
-  // Options array with images
-  const employeeOptions = [
-    {
-      value: "employee1",
-      label: (
-        <div className="flex items-center gap-2">
-          <img src={pfp} alt="pfp" className="w-6 h-6 rounded-full" />
-          <span>დიზაინის დეპარტამენტი</span>
-        </div>
-      ),
-    },
-    {
-      value: "employee2",
-      label: (
-        <div className="flex items-center gap-2">
-          <img src={pfp} alt="pfp" className="w-6 h-6 rounded-full" />
-          <span>გაყიდვების დეპარტამენტი</span>
-        </div>
-      ),
-    },
-    {
-      value: "employee3",
-      label: (
-        <div className="flex items-center gap-2">
-          <img src={pfp} alt="pfp" className="w-6 h-6 rounded-full" />
-          <span>მარკეტინგის დეპარტამენტი</span>
-        </div>
-      ),
-    },
-  ];
-
   return (
     <Container
       direction="col"
@@ -79,27 +50,22 @@ export default function CreateTaskPage() {
           <div className="font-firago flex flex-row gap-4">
             <div className="flex flex-col w-[50%]">
               <label htmlFor="priority">პრიორიტეტი*</label>
-              <select
-                name="priority"
-                id="priority"
-                className="p-[14px] border border-gray-300 rounded-[5px] font-[300] text-[14px]"
-              >
-                <option value="მაღალი">მაღალი</option>
-                <option value="საშუალო">საშუალო</option>
-                <option value="დაბალი">დაბალი</option>
-              </select>
+              <Select
+                options={priorityOptions}
+                isSearchable={false}
+                className="w-full font-[300]"
+                classNamePrefix="custom-select"
+                placeholder=""
+              />
             </div>
             <div className="flex flex-col w-[50%]">
               <label htmlFor="priority">სტატუსი*</label>
-              <select
+              <Select
                 name="priority"
                 id="priority"
-                className="p-[14px] border border-gray-300 rounded-[5px] font-[300] text-[14px]"
-              >
-                <option value="მაღალი">მაღალი</option>
-                <option value="საშუალო">საშუალო</option>
-                <option value="დაბალი">დაბალი</option>
-              </select>
+                options={status}
+                className="font-[300]"
+              />
             </div>
           </div>
         </div>
@@ -111,15 +77,13 @@ export default function CreateTaskPage() {
             <label htmlFor="title" className="font-[400] text-[14px]">
               დეპარტამენტი*
             </label>
-            <select
-              name=""
-              id="title"
-              className="appearance-none p-[14px] border border-[#DEE2E6] font-[300] leading-[100%] text-[#0D0F10] rounded-[5px] text-[14px]"
-            >
-              <option value="">დიზაინის დეპარტამენტი</option>
-              <option value="">დიზაინის დეპარტამენტი</option>
-              <option value="">დიზაინის დეპარტამენტი</option>
-            </select>
+            <Select
+              options={priorityOptions}
+              isSearchable={false}
+              className="w-full font-[300] "
+              classNamePrefix="custom-select"
+              placeholder=""
+            />
           </div>
 
           {/* Employee select using react-select */}
@@ -127,16 +91,13 @@ export default function CreateTaskPage() {
             <label htmlFor="title" className="font-[400] text-[14px]">
               პასუხისმგებელი თანამშრომელი*
             </label>
-            <select
+            <Select
               options={employeeOptions}
               isSearchable={false}
-              className="w-full appearance-none p-[14px] border border-[#DEE2E6] font-[300] leading-[100%] text-[#0D0F10] rounded-[5px] text-[14px]"
+              className="w-full font-300"
               classNamePrefix="custom-select"
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              </select>
+              placeholder="დასაწყები"
+            />
           </div>
 
           {/* Deadline input */}
