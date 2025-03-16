@@ -4,6 +4,9 @@ import Select from "react-select";
 import { employeeOptions } from "./optionsArray";
 import { priorityOptions } from "./optionsArray";
 import { status } from "./optionsArray";
+import { department } from "./optionsArray";
+import DateInput from "./DateInput";
+import CustomSelect from "../components/inputs/Selects/CustomSelect";
 
 export default function CreateTaskPage() {
   return (
@@ -20,13 +23,10 @@ export default function CreateTaskPage() {
             <label htmlFor="title" className="font-[400] text-[14px]">
               სათაური*
             </label>
-            <select
-              name=""
-              id="title"
-              className="appearance-none p-[14px] border border-[#DEE2E6] font-[300] leading-[100%] text-[#0D0F10] rounded-[5px] text-[14px]"
-            >
-              <option value="">რედბერის ლენდინგის დიზაინი</option>
-            </select>
+            <input
+              type="text"
+              className="font-[300]  text-[#0D0F10] rounded-[5px] text-[14px] p-[14px]"
+            />
           </div>
 
           {/* Description textarea */}
@@ -73,33 +73,34 @@ export default function CreateTaskPage() {
         {/* Second column */}
         <div className="flex flex-col font-firago gap-[55px] w-[50%] justify-items-start">
           {/* Department select */}
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label htmlFor="title" className="font-[400] text-[14px]">
               დეპარტამენტი*
             </label>
             <Select
-              options={priorityOptions}
+              options={department}
               isSearchable={false}
               className="w-full font-[300] "
               classNamePrefix="custom-select"
-              placeholder=""
+              placeholder="დიზაინის დეპარტამენტი"
             />
-          </div>
+          </div> */}
+          <CustomSelect
+            options={department}
+            isDisable={false}
+            placeholder="დასაწყები"
+            title="საპასუხისმგებლო თანამშრომელი"
+            required={true}
+          />
 
           {/* Employee select using react-select */}
-          <div className="flex flex-col flex-start items-start align-top">
-            <label htmlFor="title" className="font-[400] text-[14px]">
-              პასუხისმგებელი თანამშრომელი*
-            </label>
-            <Select
-              options={employeeOptions}
-              isSearchable={false}
-              className="w-full font-300"
-              classNamePrefix="custom-select"
-              placeholder="დასაწყები"
-            />
-          </div>
-
+          <CustomSelect
+            options={employeeOptions}
+            isDisable={false}
+            placeholder="დასაწყები"
+            title="საპასუხისმგებლო თანამშრომელი"
+            required={true}
+          />
           {/* Deadline input */}
           <div className="font-firago flex flex-col gap-4 h-[100%] justify-end">
             <label htmlFor="">დედლაინი</label>
