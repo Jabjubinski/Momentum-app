@@ -7,6 +7,7 @@ import { status } from "./optionsArray";
 import { department } from "./optionsArray";
 import DateInput from "./DateInput";
 import CustomSelect from "../components/inputs/Selects/CustomSelect";
+import CustomInput from "../components/inputs/Selects/CustomInput";
 
 export default function CreateTaskPage() {
   return (
@@ -19,7 +20,7 @@ export default function CreateTaskPage() {
         {/* First column */}
         <div className="flex flex-col font-firago gap-[55px] w-[50%] justify-between">
           {/* Title select */}
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label htmlFor="title" className="font-[400] text-[14px]">
               სათაური*
             </label>
@@ -27,7 +28,13 @@ export default function CreateTaskPage() {
               type="text"
               className="font-[300]  text-[#0D0F10] rounded-[5px] text-[14px] p-[14px]"
             />
-          </div>
+          </div> */}
+          <CustomInput 
+          isDisable={false}
+          placeholder='რედბერის ლენდინგის გვერდი'
+          title="სათაური"
+          required={true}
+          />
 
           {/* Description textarea */}
           <div className="flex flex-col">
