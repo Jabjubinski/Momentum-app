@@ -1,7 +1,6 @@
 import { Controller } from "react-hook-form";
 import Select, { components } from "react-select";
 
-
 import clsx from "clsx";
 
 const customStyles = {
@@ -101,8 +100,9 @@ export default function CustomSelect({
   control,
   options,
   disabled = false,
-  required = false,
+  required = null,
   customOnChange,
+  customButton,
 }) {
   return (
     <div className="flex flex-col w-[100%] gap-[10px]">
@@ -119,16 +119,60 @@ export default function CustomSelect({
       <Controller
         control={control}
         name={name}
+        rules={{ required: required?.toString() }}
         render={({ field }) => (
           <Select
             {...field}
             options={options}
-            required={required}
+            required={required ? true : false}
             isDisabled={disabled}
             styles={customStyles}
             placeholder=""
-            components={{ Option, SingleValue }}
-            value={options.find((option) => option.value === field.value)}
+            components={{
+              Option: (props) => (
+                <>
+                  {props.selectProps.menuIsOpen &&
+                    props.data.value === options[0].value &&
+                    customButton && (
+                      <button
+                        type="button"
+                        className="w-full px-[5px] cursor-pointer py-2 flex gap-2 items-center text-[#8338EC]"
+                        onClick={customButton}
+                      >
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            x="0.75"
+                            y="0.75"
+                            width="16.5"
+                            height="16.5"
+                            rx="8.25"
+                            stroke="#8338EC"
+                            stroke-width="1.5"
+                          />
+                          <path
+                            d="M9.576 8.456H13.176V9.656H9.576V13.304H8.256V9.656H4.656V8.456H8.256V4.808H9.576V8.456Z"
+                            fill="#8338EC"
+                          />
+                        </svg>
+                        დაამატე თანამშრომელი
+                      </button>
+                    )}
+                  <Option {...props} />
+                </>
+              ),
+              SingleValue,
+            }}
+            value={
+              field.value
+                ? options.find((option) => option.value === field.value)
+                : null
+            }
             onChange={(option) => {
               field.onChange(option?.value);
               if (option && customOnChange) customOnChange(option.value);

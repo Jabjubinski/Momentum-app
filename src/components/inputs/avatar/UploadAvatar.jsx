@@ -21,6 +21,7 @@ export default function UploadAvatar({
       "image/jpg": [".jpg"],
       "image/jpeg": [".jpeg"],
     },
+    maxSize: 614400,
     onDrop: (acceptedFiles) => {
       if (acceptedFiles && acceptedFiles[0]) {
         const file = acceptedFiles[0];
@@ -31,7 +32,7 @@ export default function UploadAvatar({
   });
 
   const onDrop = useCallback((acceptedFiles, onChange) => {
-    onChange(acceptedFiles); // Store the files in the form
+    onChange(acceptedFiles);
   }, []);
 
   const handleRemove = () => {

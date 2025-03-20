@@ -62,9 +62,11 @@ export default function Task({ task, color }) {
         <h2 className="text-[15px] font-firago font-[500] text-[#212529] leading-[100%] tracking-normal overflow-hidden text-ellipsis line-clamp-1">
           {task.name}
         </h2>
-        <p className="text-[14px] font-firago font-[400] text-[#343A40] leading-[100%] tracking-normal overflow-hidden text-ellipsis line-clamp-2">
-          {task.description}
-        </p>
+        <p className="text-[14px] font-firago font-[400] text-[#343A40] leading-[100%] tracking-normal ">
+          {task.description.slice(0, 100)}
+          {task.description.length >= 100 && "..."}
+        </p>{" "}
+        {task.description}
       </div>
       <div className="flex items-center justify-between">
         {/* avatar */}

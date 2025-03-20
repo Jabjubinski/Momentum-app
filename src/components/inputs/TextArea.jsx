@@ -6,7 +6,7 @@ export default function TextArea({
   placeholder,
   name,
   disabled = false,
-  required = false,
+  required = null,
   control,
   min = 0,
   watch,
@@ -26,13 +26,14 @@ export default function TextArea({
       <Controller
         control={control}
         name={name}
+        rules={{ required: required?.toString() }}
         render={({ field }) => (
           <textarea
             {...field}
             placeholder={placeholder}
             minLength={min}
             maxLength={max}
-            required={required}
+            required={required ? true : false}
             disabled={disabled}
             className="text-firago h-[133px] min-h-[133px] max-h-[133px] text-[300] text-[14px] leading-[100%] bg-[#FFFFFF] border-[1px] border-[#DEE2E6] p-[14px] gap-[10px] rounded-[5px] focus:outline-[#8338EC]"
           />
