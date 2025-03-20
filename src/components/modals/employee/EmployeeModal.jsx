@@ -9,6 +9,7 @@ import { fetchDepartments } from "../../../redux/thunks/departmentsThunk";
 
 import { useDispatch, useSelector } from "react-redux";
 import { postEmployee } from "../../../redux/thunks/employeesThunks";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function EmployeeModal() {
