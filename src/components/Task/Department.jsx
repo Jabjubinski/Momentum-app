@@ -1,29 +1,22 @@
-import clsx from "clsx";
-import React from "react";
+const getColor = {
+  1: "#F7BC30",
+  2: "#FB5607",
+  3: "#FF006E",
+  4: "#3A86FF",
+};
 
-function Department({ department_id }) {
-  const departmentTextContent =
-    department_id === 1
-      ? "დიზაინი"
-      : department_id === 2
-      ? "მარკეტინგი"
-      : department_id === 3
-      ? "ლოჯისტიკა"
-      : "ინფ.ტექ";
-
+export default function Department({ name, id }) {
+  const first = name?.split(" ")[0];
+  const colorIndex = ((id - 1) % 4) + 1;
+  const color = getColor[colorIndex];
   return (
-    <span
-      className={clsx(
-        "text-center py-[5px] px-[9px] text-[white] rounded-[15px] text-[12px] min-w-[88px]",
-        department_id === 1 && "bg-[#FF66A8]",
-        department_id === 2 && "bg-[#FD9A6A]",
-        department_id === 3 && "bg-[#89B6FF]",
-        department_id === 4 && "bg-[#FFD86D]"
-      )}
+    <div
+      style={{ background: color }}
+      className="px-[9px] min-w-[88px] py-[5px] rounded-[15px]"
     >
-      {departmentTextContent}
-    </span>
+      <p className="text-[#FFFFFF] font-firago text-center font-[400] text-[12px] tracking-normal leading-[150%]">
+        {first}
+      </p>
+    </div>
   );
 }
-
-export default Department;

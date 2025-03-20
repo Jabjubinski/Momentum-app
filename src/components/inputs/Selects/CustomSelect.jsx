@@ -1,5 +1,9 @@
-import React from "react";
+import { Controller } from "react-hook-form";
 import Select, { components } from "react-select";
+
+
+import clsx from "clsx";
+
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
@@ -56,34 +60,6 @@ const customStyles = {
   }),
 };
 
-export default function CustomSelect({
-  options,
-  isDisable,
-  placeholder,
-  title,
-  required,
-}) {
-  return (
-    <div className="flex flex-col flex-start items-start align-top">
-      {title && (
-        <label htmlFor="title" className="font-[400] text-[14px]">
-          {title} {required && "*"}
-        </label>
-      )}
-      <Select
-        options={options}
-        className="w-full font-300"
-        classNamePrefix="custom-select"
-        placeholder={placeholder}
-        components={{ Option, SingleValue }}
-        isDisabled={isDisable}
-        required={required}
-        styles={customStyles}
-      />
-    </div>
-  );
-}
-
 const Option = (props) => {
   const { innerProps } = props;
   return (
@@ -118,3 +94,48 @@ const SingleValue = (props) => {
     </components.SingleValue>
   );
 };
+
+export default function CustomSelect({
+  title,
+  name,
+  control,
+  options,
+  disabled = false,
+  required = false,
+  customOnChange,
+}) {
+  return (
+    <div className="flex flex-col w-[100%] gap-[10px]">
+      {title && (
+        <label
+          className={clsx(
+            "text-firago font-[400] text-[16px] leading-[100%]",
+            disabled ? "text-[#ADB5BD]" : "text-[#343A40]"
+          )}
+        >
+          {title} {required && "*"}
+        </label>
+      )}
+      <Controller
+        control={control}
+        name={name}
+        render={({ field }) => (
+          <Select
+            {...field}
+            options={options}
+            required={required}
+            isDisabled={disabled}
+            styles={customStyles}
+            placeholder=""
+            components={{ Option, SingleValue }}
+            value={options.find((option) => option.value === field.value)}
+            onChange={(option) => {
+              field.onChange(option?.value);
+              if (option && customOnChange) customOnChange(option.value);
+            }}
+          />
+        )}
+      />
+    </div>
+  );
+}

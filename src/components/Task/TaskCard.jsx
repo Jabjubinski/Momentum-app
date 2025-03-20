@@ -1,51 +1,93 @@
 import pfp from "./pfp.png";
-import comment from "./Comments.svg";
-import Difficulty from "./Difficulty";
+import CommentIcon from "../../assets/Comments.svg";
+import PriorityCard from "./PriorityCard";
 import clsx from "clsx";
 import Department from "./Department";
+import { Link } from "react-router-dom";
 
-export default function Task({
-  department_id,
-  date,
-  commentsCount,
-  difficulty_id,
-  progress_id,
-}) {
+export default function Task({ task, color }) {
+  const formatDate = (date) => {
+    const parsedDate = new Date(date);
+    const day = parsedDate.getDate();
+    const year = parsedDate.getFullYear();
+
+    const monthNames = [
+      "იან",
+      "თებ",
+      "მარ",
+      "აპრ",
+      "მაი",
+      "ივნ",
+      "ივლ",
+      "აგვ",
+      "სექ",
+      "ოქტ",
+      "ნოე",
+      "დეკ",
+    ];
+
+    const month = monthNames[parsedDate.getMonth()];
+
+    return `${day} ${month}, ${year}`;
+  };
+
+  const formattedDate = formatDate(task.due_date);
+
   return (
-    <div
-      className={clsx(
-        "font-firago leading-[100%] flex flex-col gap-[28px] p-[20px] border-1 rounded-[15px]",
-        progress_id === 1 && "border-[#F7BC30]",
-        progress_id === 2 && "border-[#FB5607]",
-        progress_id === 3 && "border-[#FF006E]",
-        progress_id === 4 && "border-[#3A86FF]"
-      )}
+    <Link
+      to={`/task/${task.id}`}
+      style={{
+        borderColor: color,
+      }}
+      className="rounded-[15px] bg-[#FFFFFF] border-[1px] p-[20px] justify-between gap-[28px] h-[217px] flex flex-col"
     >
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex gap-[10px]">
-          <Difficulty id={difficulty_id} />
-          <Department department_id={department_id} />
+      <div className="h-[26px] flex justify-between items-center">
+        <div className="flex gap-[10px] items-center">
+          {/* Priority */}
+          <PriorityCard
+            name={task.priority.name}
+            id={task.priority.id}
+            icon={task.priority.icon}
+          />
+          {/* Dep */}
+          <Department name={task.department.name} id={task.department.id} />
         </div>
-        <p className="text-[12px]">{date}</p>
+        {/* Date 22 იანვ, 2022*/}
+        <span className="font-firago font-[400] text-[12px] text-[#212529]">
+          {formattedDate}
+        </span>
       </div>
-      <div className="flex flex-col gap-[12px] leading-[100%]">
-        <p className="font-[500] text-ellipsis line-clamp-2">
-          Redberry-ს საიტის ლენდინგის დიზაინი
-        </p>
-
-        <p className="text-[14px] font-[400] overflow-hidden text-ellipsis line-clamp-2">
-          შექმენი საიტის მთავარი გვერდი, რომელიც მოიცავს მთავარ სექციებს,
-          ნავიგაციას.
+      {/* Title Desc */}
+      <div className="flex flex-col gap-[12px]">
+        <h2 className="text-[15px] font-firago font-[500] text-[#212529] leading-[100%] tracking-normal overflow-hidden text-ellipsis line-clamp-1">
+          {task.name}
+        </h2>
+        <p className="text-[14px] font-firago font-[400] text-[#343A40] leading-[100%] tracking-normal overflow-hidden text-ellipsis line-clamp-2">
+          {task.description}
         </p>
       </div>
       <div className="flex items-center justify-between">
-        <img src={pfp} alt="..." className="object-cover" />
-        <div className="flex items-center gap-[4px]">
-          <img src={comment} alt="..." className="object-cover" />
-
-          <p className="leading-[100%] text-[14px]">{commentsCount}</p>
+        {/* avatar */}
+        <img
+          src={task.employee.avatar || Placeholder}
+          alt="avatar"
+          className="object-cover w-[31px] h-[31px] rounded-full"
+          width={31}
+          height={31}
+        />
+        <div className="flex justify-center items-center gap-[4px]">
+          <img
+            src={CommentIcon}
+            alt="comments"
+            width={20.24}
+            height={18.48}
+            className="w-[20.24px] h-[18.48px]"
+          />
+          <p className="font-firago font-[400] text-[14px] leading-[100%] tracking-normal">
+            {task.total_comments}
+          </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

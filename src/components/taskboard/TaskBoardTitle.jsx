@@ -1,28 +1,16 @@
 import clsx from "clsx";
 import React from "react";
 
-export default function TaskBoardTitle({ id }) {
-  const titleTextContent =
-    id === 1
-      ? "დასაწყები"
-      : id === 2
-      ? "პროგრესში"
-      : id === 3
-      ? "მზად ტესტირებისთვის"
-      : "დასრულებული";
-
+export default function TaskBoardTitle({ name, color }) {
   return (
     <div
-      className={clsx(
-        "rounded-[10px] p-[15px] flex justify-center items-center",
-        id === 1 && "bg-[#F7BC30]",
-        id === 2 && "bg-[#FB5607]",
-        id === 3 && "bg-[#FF006E]",
-        id === 4 && "bg-[#3A86FF]"
-      )}
+      style={{
+        backgroundColor: color,
+      }}
+      className={"rounded-[10px] p-[15px] flex justify-center items-center"}
     >
       <h2 className="text-white text-center font-firago font-[500] text-[20px]">
-        {titleTextContent}
+        {name}
       </h2>
     </div>
   );

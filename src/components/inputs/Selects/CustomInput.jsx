@@ -1,52 +1,104 @@
-import React from "react";
+import clsx from "clsx";
+import { Controller } from "react-hook-form";
 
-const customStyles = (isFocused) => ({
-  fontFamily: "var(--font-firago)",
-  fontWeight: 350,
-  fontSize: "14px",
-  lineHeight: "100%",
-  cursor: "default",
-  backgroundColor: "#FFFFFF",
-  padding: "14px",
-  borderStyle: "solid",
-  borderColor: isFocused ? "#8338EC" : "#DEE2E6",
-  borderWidth: "1px",
-  borderRadius: "5px",
-  outline: "none",
-  transition: "border-color 0.2s ease-in-out",
-});
-
-export default function CustomInput({
-  isDisable = false,
+export default function Input({
+  title,
   placeholder,
   name,
-  title,
+  disabled = false,
+  required = null,
+  control,
   min = 0,
+  watch,
   max = 255,
-  required = false,
 }) {
-  const [isFocused, setIsFocused] = React.useState(false);
-
+  const value = watch(name);
   return (
-    <div className="flex flex-col items-start">
-      {title && (
-        <label htmlFor={name} className="font-[400] text-[14px] mb-1">
-          {title} {required && "*"}
-        </label>
-      )}
-      <input
-        id={name}
+    <div className="flex flex-col gap-[10px]">
+      <label
+        className={clsx(
+          "text-firago font-[400] text-[16px] leading-[100%]",
+          disabled ? "text-[#ADB5BD]" : "text-[#343A40]"
+        )}
+      >
+        {title} {required && "*"}
+      </label>
+      <Controller
+        control={control}
         name={name}
-        placeholder={placeholder}
-        disabled={isDisable}
-        required={required}
-        min={min}
-        max={max}
-        style={customStyles(isFocused)}
-        className="w-full"
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        rules={{ required: required?.toString() }}
+        render={({ field }) => (
+          <input
+            {...field}
+            placeholder={placeholder}
+            required={required ? true : false}
+            minLength={min}
+            maxLength={max}
+            disabled={disabled}
+            className="text-firago text-[300] text-[14px] leading-[100%] bg-[#FFFFFF] border-[1px] border-[#DEE2E6] p-[14px] gap-[10px] rounded-[5px] focus:outline-[#8338EC]"
+          />
+        )}
       />
+      <div className="flex flex-col gap-[4px]">
+        <p
+          className={clsx(
+            "font-firago font-[350] flex items-center gap-[1px] text-[10px] leading-[100%]",
+            value.length < min && value.length != 0 && "text-[#FA4D4D]",
+            value.length < min && value.length == 0 && "text-[#6C757D]",
+            value.length >= min && value.length != 0 && "text-[#08A508]"
+          )}
+        >
+          <svg
+            width="14"
+            height="10"
+            viewBox="0 0 14 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12.3327 1L4.99935 8.33333L1.66602 5"
+              stroke={clsx(
+                value.length < min && value.length != 0 && "#FA4D4D",
+                value.length < min && value.length == 0 && "#6C757D",
+                value.length >= min && value.length != 0 && "#08A508"
+              )}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span>მინიმუმ {min} სიმბოლო </span>
+        </p>
+        <p
+          className={clsx(
+            "font-firago font-[350] flex items-center gap-[1px]  text-[10px] leading-[100%]",
+            value.length > max && value.length != 0 && "text-[#FA4D4D]",
+            value.length < max && value.length == 0 && "text-[#6C757D]",
+            value.length <= max && value.length != 0 && "text-[#08A508]"
+          )}
+        >
+          <svg
+            width="14"
+            height="10"
+            viewBox="0 0 14 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12.3327 1L4.99935 8.33333L1.66602 5"
+              stroke={clsx(
+                value.length > max && value.length != 0 && "#FA4D4D",
+                value.length < max && value.length == 0 && "#6C757D",
+                value.length <= max && value.length != 0 && "#08A508"
+              )}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          მაქსიმუმ {max} სიმბოლო
+        </p>
+      </div>
     </div>
   );
 }
