@@ -97,7 +97,7 @@ export default function CreateTaskPage() {
     dispatch(postTasks({ data: data })).then((response) => {
       setLoading(false);
       if (response.meta.requestStatus == "fulfilled") {
-        toast.error("დავალება წარმატებით დაემატა!");
+        toast.success("დავალება წარმატებით დაემატა!");
         navigate("/");
         reset({
           name: "",

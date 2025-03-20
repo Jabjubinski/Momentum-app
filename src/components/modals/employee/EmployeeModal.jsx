@@ -12,6 +12,8 @@ import { postEmployee } from "../../../redux/thunks/employeesThunks";
 import toast from "react-hot-toast";
 
 export default function EmployeeModal() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { onClose, isOpen } = useEmployeeModal();
 
   const dispatch = useDispatch();
@@ -51,9 +53,10 @@ export default function EmployeeModal() {
     formData.append("surname", data.surname);
     formData.append("department_id", data.department_id.toString());
     if (data.avatar) formData.append("avatar", data.avatar[0]);
-
+    setIsLoading(true);
     dispatch(postEmployee({ formData: formData })).then((response) => {
       if (response.meta.requestStatus == "fulfilled") {
+        setIsLoading(false);
         toast.success("თანამშრომლი წარმატებით დაემატა!");
         reset({
           name: "",
@@ -129,7 +132,7 @@ export default function EmployeeModal() {
         >
           გაუქმება
         </button>
-        <button className="rounded-[5px] px-[16px] py-[10px] border-[1px] cursor-pointer border-[#8338EC] text-white bg-[#8338EC] font-firago font-[400] text-[16px] leading-[100%] text-center">
+        <button disabled={isLoading} className="rounded-[5px] px-[16px] py-[10px] border-[1px] cursor-pointer border-[#8338EC] text-white bg-[#8338EC] font-firago font-[400] text-[16px] leading-[100%] text-center">
           დაამატე თანამშრომელი
         </button>
       </div>
