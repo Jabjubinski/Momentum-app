@@ -1,7 +1,7 @@
 import axios from "../utils/axios";
 
 export const get_comments = async ({ task_id }) => {
-  const response = await axios.get(`/tasks/${task_id}/comment`);
+  const response = await axios.get(`/tasks/${task_id}/comments`);
   return response.data;
 };
 

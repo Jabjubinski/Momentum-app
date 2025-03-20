@@ -218,7 +218,7 @@ export default function TaskDetailsPage() {
             </div>
           </div>
         </div>
-        <CommentBoard />
+        <CommentBoard taskId={id} />
       </div>
     </Container>
   );
