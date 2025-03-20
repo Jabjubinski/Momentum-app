@@ -9,6 +9,7 @@ import { fetchDepartments } from "../../../redux/thunks/departmentsThunk";
 
 import { useDispatch, useSelector } from "react-redux";
 import { postEmployee } from "../../../redux/thunks/employeesThunks";
+import toast from "react-hot-toast";
 
 export default function EmployeeModal() {
   const { onClose, isOpen } = useEmployeeModal();
@@ -43,7 +44,7 @@ export default function EmployeeModal() {
 
   const onSubmit = (data) => {
     if (!data.department_id || !data.avatar || !data.name || !data.surname)
-      return alert("გთხოვთ შეავსოთ ყველა ველი!");
+      return toast.error("გთხოვთ შეავსოთ ყველა ველი!");
 
     const formData = new FormData();
     formData.append("name", data.name);
@@ -53,7 +54,7 @@ export default function EmployeeModal() {
 
     dispatch(postEmployee({ formData: formData })).then((response) => {
       if (response.meta.requestStatus == "fulfilled") {
-        alert("თანამშრომლი წარმატებით დაემატა!");
+        toast.success("თანამშრომლი წარმატებით დაემატა!");
         reset({
           name: "",
           surname: "",
@@ -64,7 +65,7 @@ export default function EmployeeModal() {
         });
         onClose();
       } else {
-        alert("დაფიქსირდა შეცდომა!");
+        toast.error("დაფიქსირდა შეცდომა!");
       }
     });
   };

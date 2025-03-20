@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Controller } from "react-hook-form";
-import trashIcon from "../../../assets/trash.png";
-import uploadImage from "../../../assets/upload-image.png";
+import trashIcon from "../../../assets/icons/trash.png";
+import uploadImage from "../../../assets/icons/upload-image.png";
 import clsx from "clsx";
 
 export default function UploadAvatar({

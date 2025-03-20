@@ -14,7 +14,7 @@ export default function TaskPage() {
   const { data: statusesData } = useSelector((state) => state.statuses);
   const dispatch = useDispatch();
 
-  console.log(data);
+
 
   const isLoading = useMemo(() => status === "loading", [status]);
 
@@ -37,7 +37,7 @@ export default function TaskPage() {
     ) {
       return data;
     }
-    console.log("(");
+  
 
     return data.filter((task) => {
       const departmentMatch = filteredData.departments.length

@@ -1,11 +1,10 @@
-import pfp from "./pfp.png";
-import CommentIcon from "../../assets/Comments.svg";
-import PriorityCard from "./PriorityCard";
-import clsx from "clsx";
 import Department from "./Department";
+import PriorityCard from "./PriorityCard";
+import Placeholder from "../../assets/images/placeholder.png";
+import CommentIcon from "../../assets/icons/comments.svg";
 import { Link } from "react-router-dom";
 
-export default function Task({ task, color }) {
+export default function TaskCard({ task, color }) {
   const formatDate = (date) => {
     const parsedDate = new Date(date);
     const day = parsedDate.getDate();
@@ -50,7 +49,7 @@ export default function Task({ task, color }) {
             icon={task.priority.icon}
           />
           {/* Dep */}
-          <Department name={task.department.name} id={task.department.id} />
+          <Department id={task.department.id} name={task.department.name} />
         </div>
         {/* Date 22 იანვ, 2022*/}
         <span className="font-firago font-[400] text-[12px] text-[#212529]">
@@ -65,8 +64,7 @@ export default function Task({ task, color }) {
         <p className="text-[14px] font-firago font-[400] text-[#343A40] leading-[100%] tracking-normal ">
           {task.description.slice(0, 100)}
           {task.description.length >= 100 && "..."}
-        </p>{" "}
-        {task.description}
+        </p>
       </div>
       <div className="flex items-center justify-between">
         {/* avatar */}

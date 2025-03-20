@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Container from "../Container";
-import addIcon from "./add.svg";
-import hourGlass from "./hourglass.svg";
+import addIcon from "../../assets/icons/add.svg";
+import hourGlass from "../../assets/logo/Hourglass.svg"
 import useEmployeeModal from "../../hooks/useEmployeeModal";
 
 export default function Header() {

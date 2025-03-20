@@ -1,120 +1,123 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import Container from "../components/Container";
+import Input from "../components/inputs/Selects/CustomInput";
+import TextArea from "../components/inputs/TextArea";
 import CustomSelect from "../components/inputs/Selects/CustomSelect";
-import CustomInput from "../components/inputs/Selects/CustomInput";
-import CustomTextArea from "../components/inputs/TextArea";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
+import { fetchEmployees } from "../redux/thunks/employeesThunks";
 import { fetchStatuses } from "../redux/thunks/statusesThunk";
 import { fetchPriorities } from "../redux/thunks/prioritiesThunk";
 import { fetchDepartments } from "../redux/thunks/departmentsThunk";
-import { fetchEmployees } from "../redux/thunks/employeesThunks";
-import { fetchComments } from "../redux/thunks/commentsThunk";
-import { useForm } from "react-hook-form";
-import { Controller } from "react-hook-form";
 import { postTasks } from "../redux/thunks/tasksThunk";
+import DateInput from "../components/inputs/calendar/DateInput"
+
+import { useNavigate } from "react-router-dom";
+import useEmployeeModal from "../hooks/useEmployeeModal";
+import toast from "react-hot-toast";
 
 export default function CreateTaskPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { onOpen: openEmployeeModal } = useEmployeeModal();
   const [isLoading, setLoading] = useState(false);
 
-  const dispatch = useDispatch();
-  const { data: statusesData, status: statusesStatus } = useSelector(
-    (state) => state.statuses
-  );
-  const { data: priorityData, status: priorityStatus } = useSelector(
-    (state) => state.priorities
-  );
-  const { data: departmentsData, status: departmentStatus } = useSelector(
-    (state) => state.departments
-  );
   const { data: employeesData, status: employeesStatus } = useSelector(
     (state) => state.employees
   );
-
-  const isStatusesLoading = useMemo(
-    () => statusesStatus === "loading",
-    [statusesStatus]
+  const { data: statusesData, status: statusesStatus } = useSelector(
+    (state) => state.statuses
   );
-
-  const isPriorityLoading = useMemo(
-    () => priorityStatus === "loading",
-    [priorityStatus]
+  const { data: prioritiesData, status: prioritiesStatus } = useSelector(
+    (state) => state.priorities
   );
-
-  const isDepartmentsLoading = useMemo(
-    () => departmentStatus === "loading",
-    [departmentStatus]
+  const { data: departmentsData, status: departmentsStatus } = useSelector(
+    (state) => state.departments
   );
 
   const isEmployeesLoading = useMemo(
     () => employeesStatus === "loading",
     [employeesStatus]
   );
+  const isStatusesLoading = useMemo(
+    () => statusesStatus === "loading",
+    [statusesStatus]
+  );
+  const isPrioritiesLoading = useMemo(
+    () => prioritiesStatus === "loading",
+    [prioritiesStatus]
+  );
+  const isDepartmentsLoading = useMemo(
+    () => departmentsStatus === "loading",
+    [departmentsStatus]
+  );
+
   useEffect(() => {
+    dispatch(fetchEmployees());
     dispatch(fetchStatuses());
     dispatch(fetchPriorities());
     dispatch(fetchDepartments());
-    dispatch(fetchEmployees());
   }, [dispatch]);
-
-  const statusesOptions = statusesData.map((status) => ({
-    value: status.id,
-    label: status.name,
-  }));
-
-  const priorityOptions = priorityData.map((priority) => ({
-    value: priority.id,
-    label: priority.name,
-    icon: priority.icon,
-  }));
 
   const departmentsOptions = departmentsData.map((department) => ({
     value: department.id,
     label: department.name,
   }));
 
-  // const employeeOptions = employeesData.map((employee) => ({
-  //   value: employee.id,
-  //   label: `${employee.name} ${employee.surname}`,
-  //   icon: employee.avatar,
-  // }));
+  const statusesOptions = statusesData.map((status) => ({
+    value: status.id,
+    label: status.name,
+  }));
 
+  const prioritiesOptions = prioritiesData.map((priority) => ({
+    value: priority.id,
+    label: priority.name,
+    icon: priority.icon,
+  }));
+
+  const currentDate = new Date();
   const { control, handleSubmit, watch, reset, setValue } = useForm({
     defaultValues: {
       name: "",
       description: "",
-      due_date: "",
-      status_id: null,
+      department_id: departmentsOptions[0]
+        ? departmentsOptions[0]?.value
+        : null,
+      priority_id: prioritiesOptions[0] ? prioritiesOptions[0]?.value : null,
+      status_id: statusesOptions[0] ? statusesOptions[0]?.value : null,
       employee_id: null,
-      priority_id: null,
+      due_date: `${currentDate.getFullYear()}-${String(
+        currentDate.getMonth() + 1
+      ).padStart(2, "0")}-${String(currentDate.getDate()).padStart(2, "0")}`,
     },
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     setLoading(true);
     dispatch(postTasks({ data: data })).then((response) => {
       setLoading(false);
-      if (response.meta.requestStatus === "fulfilled") {
-        alert("წარმატებით შეიქმნა ტასკი");
+      if (response.meta.requestStatus == "fulfilled") {
+        toast.error("დავალება წარმატებით დაემატა!");
+        navigate("/");
         reset({
           name: "",
           description: "",
-          due_date: "",
+          department_id: null,
+          priority_id: prioritiesOptions[1]?.value,
           status_id: null,
           employee_id: null,
-          priority_id: null,
+          due_date: `${currentDate.getFullYear()}-${String(
+            currentDate.getMonth() + 1
+          ).padStart(2, "0")}-${String(currentDate.getDate()).padStart(
+            2,
+            "0"
+          )}`,
         });
       } else {
-        alert("ტასკი ვერ შეიქმნა");
+        toast.error("დაფიქსირდა შეცდომა!");
       }
     });
   };
-
-  // const commentOptions = commentsData.map((comment) => {
-
-  // })
-
-  // console.log(statusesData, statusesStatus)
 
   const selectedDepartments = watch("department_id");
 
@@ -131,16 +134,10 @@ export default function CreateTaskPage() {
       icon: employee.avatar,
     }))
     .reverse();
+
   useEffect(() => {
-    if (priorityData) {
-      setValue("priority_id", priorityData[1]?.id);
-    }
-  }, [priorityData]);
-  useEffect(() => {
-    if (selectedDepartments) {
-      setValue("employee_id", 2);
-    }
-  }, [selectedDepartments]);
+    setValue("priority_id", prioritiesOptions[1]?.value);
+  }, [prioritiesOptions, setValue]);
 
   return (
     <Container
@@ -148,132 +145,99 @@ export default function CreateTaskPage() {
       title="შექმენი ახალი დავალება"
       customStyle="flex flex-col gap-[40px]"
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-row gap-[10%]">
-          {/* First column */}
-          <div className="flex flex-col font-firago gap-[55px] w-[50%] justify-between">
-            {/* Title select */}
-
-            <CustomInput
-              isDisable={false}
-              placeholder="რედბერის ლენდინგის გვერდი"
-              title="სათაური"
-              required={true}
-              min={3}
-              max={255}
-              name="name"
-              control={control}
-              watch={watch}
-            />
-
-            {/* Description textarea */}
-
-            <CustomTextArea
-              isDisable={false}
-              title={"აღწერა"}
-              required={true}
-              name="description"
-              min={3}
-              max={255}
-              control={control}
-              watch={watch}
-            />
-
-            {/* Priority selects */}
-            <div className="font-firago flex flex-row gap-4">
-              <div className="flex flex-col w-[50%]">
-                <label htmlFor="priority">პრიორიტეტი*</label>
-                <CustomSelect
-                  options={priorityOptions}
-                  isSearchable={false}
-                  className="w-full font-[300]"
-                  classNamePrefix="custom-select"
-                  placeholder=""
-                  name="priority_id"
-                  control={control}
-                  isDisable={isPriorityLoading}
-                />
-              </div>
-              <div className="flex flex-col w-[50%]">
-                <label htmlFor="priority">სტატუსი*</label>
-                <CustomSelect
-                  id="status"
-                  options={statusesOptions}
-                  className="font-[300]"
-                  placeholder="დასაწყები"
-                  isDisable={isStatusesLoading}
-                  control={control}
-                  name="status_id"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Second column */}
-          <div className="flex flex-col font-firago gap-[55px] w-[50%] justify-items-start">
-            {/* Department select */}
-            {/* <div className="flex flex-col">
-            <label htmlFor="title" className="font-[400] text-[14px]">
-              დეპარტამენტი*
-            </label>
-            <Select
-              options={department}
-              isSearchable={false}
-              className="w-full font-[300] "
-              classNamePrefix="custom-select"
-              placeholder="დიზაინის დეპარტამენტი"
-            />
-          </div> */}
-            <CustomSelect
-              options={departmentsOptions}
-              placeholder="დასაწყები"
-              title="დეპარტამენტი"
-              required={true}
-              control={control}
-              name="department_id"
-              isDisable={isDepartmentsLoading}
-            />
-
-            {/* Employee select using react-select */}
-            <CustomSelect
-              options={employeeOptions}
-              placeholder="დასაწყები"
-              title="საპასუხისმგებლო თანამშრომელი"
-              required={true}
-              control={control}
-              name="employee_id"
-              isDisable={isEmployeesLoading || isDepartmentsLoading}
-            />
-            {/* Deadline input */}
-
-            <Controller
-              control={control}
-              name="due_date"
-              render={({ field: { onChange, value, ...rest } }) => (
-                <div className="font-firago flex flex-col gap-4 h-[100%] justify-end">
-                  <label htmlFor="deadline">დედლაინი</label>
-                  <input
-                    type="date"
-                    id="deadline"
-                    className="w-[50%] p-[14px] border border-gray-300 font-[300] leading-[100%] text-[#0D0F10] rounded-[5px]"
-                    value={value ? value.split("T")[0] : ""}
-                    onChange={(e) => {
-                      const selectedDate = new Date(e.target.value);
-                      const formattedDate = selectedDate.toISOString(); // Returns format "YYYY-MM-DDTHH:mm:ss.sssZ"
-                      onChange(formattedDate);
-                    }}
-                    {...rest}
-                  />
-                </div>
-              )}
-            />
-          </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="border-[0.3px] grid grid-cols-1 md:grid-cols-2 gap-x-[60px] gap-y-[40px] border-[#DDD2FF] rounded-[4px] bg-[#FBF9FFA6] px-[44px] py-[60px]"
+      >
+        <Input
+          watch={watch}
+          name="name"
+          placeholder=""
+          min={3}
+          required={"ჩაწერეთ სახელი"}
+          max={255}
+          title="სათაური"
+          control={control}
+        />
+        <CustomSelect
+          options={departmentsOptions}
+          control={control}
+          required={"აირჩიეთ დეპარტამენტი"}
+          disabled={isDepartmentsLoading}
+          name="department_id"
+          title="დეპარტამენტი"
+        />
+        <TextArea
+          watch={watch}
+          name="description"
+          placeholder=""
+          min={4}
+          required={"ჩაწერეთ აღწერა"}
+          max={255}
+          title="აღწერა"
+          control={control}
+        />
+        <CustomSelect
+          options={employeeOptions}
+          control={control}
+          disabled={isEmployeesLoading || !selectedDepartments}
+          name="employee_id"
+          customButton={openEmployeeModal}
+          title="პასუხისმგებელი თანამშრომელი"
+          required={"აირჩიეთ პასუხისმგებელი თანამშრომელი"}
+        />
+        <div className="flex gap-[15px]">
+          <CustomSelect
+            options={prioritiesOptions}
+            disabled={isPrioritiesLoading}
+            control={control}
+            name="priority_id"
+            title="პრიორიტეტი"
+            required={"აირჩიეთ პრიორიტეტი"}
+          />
+          <CustomSelect
+            options={statusesOptions}
+            disabled={isStatusesLoading}
+            control={control}
+            name="status_id"
+            title="სტატუსი"
+            required={"აირჩიეთ სტატუსი"}
+          />
         </div>
-        <div className="w-full flex justify-end">
+        <div className="flex flex-col gap-[10px]">
+          <label className="text-firago font-[400] text-[16px] leading-[100%]">
+            დასრულების თარიღი
+          </label>
+          <Controller
+            control={control}
+            name="due_date"
+            rules={{ required: "აირჩიეთ თარიღი " }}
+            render={({ field }) => (
+              <DateInput
+                onChange={(date) => {
+                  if (date) {
+                    field.onChange(
+                      `${date.getFullYear()}-${String(
+                        date.getMonth() + 1
+                      ).padStart(2, "0")}-${String(date.getDate()).padStart(
+                        2,
+                        "0"
+                      )}`
+                    );
+                  } else {
+                    field.onChange(null);
+                  }
+                }}
+                value={field.value}
+              />
+            )}
+          />
+        </div>
+        <div className="col-span-full flex justify-end items-center">
           <button
             type="submit"
-            className="px-[20px] py-[10px] rounded-[5px] bg-[#8338EC] text-[18px] font-[400] text-white"
             disabled={isLoading}
+            className="rounded-[5px] cursor-pointer px-[20px] py-[10px] font-firago font-[400] text-[18px] text-[#FFFFFF] leading-[100%] bg-[#8338EC]"
           >
             დავალების შექმნა
           </button>

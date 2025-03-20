@@ -10,6 +10,7 @@ export default function CommentBoard({ taskId }) {
 
   useEffect(() => {
     dispatch(fetchComments({ taskId: taskId }));
+    console.log(taskId)
   }, [dispatch, taskId]);
 
   return (
@@ -21,7 +22,7 @@ export default function CommentBoard({ taskId }) {
             კომენტარები
           </h2>
           <div className="rounded-[30px] bg-[#8338EC] w-[30px] h-[22px] flex justify-center items-center text-[14px] font-[500] font-firago text-[#FFFFFF] leading-0">
-            3
+            {data?.length}
           </div>
         </div>
         <div className="w-full flex flex-col gap-12 overflow-y-auto">

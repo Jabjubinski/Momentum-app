@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import closeIcon from "../../assets/x_icon.svg";
+import { useState} from "react";
+import closeIcon from "../../assets/icons/x_icon.svg";
 import EmployeeFilter from "./EmployeeFilter";
 import DepartmentFilter from "./DepartmentFilter";
 import PriorityFilter from "./PriorityFilter";

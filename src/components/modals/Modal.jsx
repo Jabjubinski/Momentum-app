@@ -1,6 +1,6 @@
 import clsx from "clsx"
-import CloseIcon from '../../assets/close.png'
-import { JSX } from "react"
+import CloseIcon from '../../assets/icons/close.png'
+
 
 
 export default function Modal({

@@ -19,6 +19,7 @@ import { fetchStatuses } from "../redux/thunks/statusesThunk";
 import { useForm } from "react-hook-form";
 
 import CommentBoard from "../components/Task/details/CommentBoard";
+import toast from "react-hot-toast";
 
 export default function TaskDetailsPage() {
   const { id } = useParams();
@@ -63,9 +64,9 @@ export default function TaskDetailsPage() {
     dispatch(putTaskStatus({ id: id, status_id: status_id })).then(
       (response) => {
         if (response.meta.requestStatus == "fulfilled") {
-          alert("სტატუსი წარმატებით შეიცვალა!");
+          toast.success("სტატუსი წარმატებით შეიცვალა!");
         } else {
-          alert("დაფიქსირდა შეცდომა!");
+          toast.error("დაფიქსირდა შეცდომა!");
           if (data) {
             setValue("status_id", data?.status?.id);
           }

@@ -27,7 +27,7 @@ const commentsSlice = createSlice({
       })
       .addCase(postComment.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log(action.payload);
+
         if (action.payload.parent_id) {
           state.data = state.data.map((comment) => {
             if (comment.id === action.payload.parent_id) {

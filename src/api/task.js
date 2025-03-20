@@ -8,7 +8,7 @@ export const post_tasks = async ({
   status_id,
   priority_id,
 }) => {
-  console.log(name, description, employee_id, due_date, status_id, priority_id);
+ 
   const response = await axios.post("/tasks", {
     name: name,
     description: description,
