@@ -5,7 +5,7 @@ import { useEffect, useMemo } from "react";
 import {
   fetchTaskDetails,
   putTaskStatus,
-} from "../redux/thunks/taskDetailsThunk";
+} from "../redux/thunks/taskDetailsthunk";
 import Department from "../components/Task/Department";
 import PriorityCard from "../components/Task/PriorityCard";
 import Page404 from "./Page404";
