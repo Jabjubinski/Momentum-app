@@ -1,7 +1,7 @@
 import Department from "./Department";
 import PriorityCard from "./PriorityCard";
 import Placeholder from "../../assets/images/placeholder.png";
-import CommentIcon from "../../assets/icons/comments.svg";
+import CommentIcon from "../../assets/icons/Comments.svg";
 import { Link } from "react-router-dom";
 
 export default function TaskCard({ task, color }) {
