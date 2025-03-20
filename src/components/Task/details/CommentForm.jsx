@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 export default function CommentForm({ taskId, parent_id, customOnSubmit }) {
   const dispatch = useDispatch();
-  const { handleSubmit, register } = useForm({
+  const { handleSubmit, register, reset } = useForm({
     defaultValues: {
       text: "",
     },
@@ -19,6 +19,9 @@ export default function CommentForm({ taskId, parent_id, customOnSubmit }) {
         },
       })
     );
+    reset({
+      text: "",
+    });
     if (customOnSubmit) {
       customOnSubmit();
     }
