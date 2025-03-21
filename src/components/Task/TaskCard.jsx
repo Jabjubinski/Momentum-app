@@ -1,7 +1,7 @@
 import Department from "./Department";
 import PriorityCard from "./PriorityCard";
 import Placeholder from "../../assets/images/placeholder.png";
-import CommentIcon from "../../assets/icons/Comments.svg";
+import CommentIcon from "../../assets/icons/comments.svg";
 import { Link } from "react-router-dom";
 
 export default function TaskCard({ task, color }) {
@@ -62,8 +62,8 @@ export default function TaskCard({ task, color }) {
           {task.name}
         </h2>
         <p className="text-[14px] font-firago font-[400] text-[#343A40] leading-[100%] tracking-normal ">
-          {task.description.slice(0, 100)}
-          {task.description.length >= 100 && "..."}
+          {task.description?.slice(0, 100)}
+          {task.description?.length >= 100 && "..."}
         </p>
       </div>
       <div className="flex items-center justify-between">
