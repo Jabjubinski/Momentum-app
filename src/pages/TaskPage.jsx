@@ -14,8 +14,6 @@ export default function TaskPage() {
   const { data: statusesData } = useSelector((state) => state.statuses);
   const dispatch = useDispatch();
 
-
-
   const isLoading = useMemo(() => status === "loading", [status]);
 
   useEffect(() => {
@@ -37,7 +35,6 @@ export default function TaskPage() {
     ) {
       return data;
     }
-  
 
     return data.filter((task) => {
       const departmentMatch = filteredData.departments.length
@@ -61,7 +58,7 @@ export default function TaskPage() {
       id: status.id,
       name: status.name,
       tasks: Array.isArray(filteredTasks)
-        ? filteredTasks.filter((task) => task.status.id === status.id)
+        ? filteredTasks.filter((task) => task.status.id === status.id).reverse()
         : [],
     }));
   }, [filteredTasks, statusesData]);
