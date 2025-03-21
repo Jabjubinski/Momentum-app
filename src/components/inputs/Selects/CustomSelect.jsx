@@ -16,7 +16,11 @@ const customStyles = {
     borderRadius: state.menuIsOpen ? "5px 5px 0px 0px" : "5px",
     borderWidth: state.menuIsOpen ? "1px 1px 0px 1px" : "1px",
     borderStyle: "solid",
-    borderColor: state.menuIsOpen ? "#8338EC" : "#DEE2E6",
+    borderColor: state.selectProps.error
+      ? "#FA4D4D"
+      : state.menuIsOpen
+      ? "#8338EC"
+      : "#DEE2E6",
     boxShadow: "none",
     "&:hover": {
       borderColor: state.menuIsOpen ? "#8338EC" : "#DEE2E6",
@@ -78,6 +82,7 @@ const Option = (props) => {
 };
 
 const SingleValue = (props) => {
+  console.log(props.selectProps.error);
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
@@ -119,12 +124,13 @@ export default function CustomSelect({
       <Controller
         control={control}
         name={name}
-        rules={{ required: required?.toString() }}
-        render={({ field }) => (
+        rules={{
+          required: required ? "აუცილებელი ველი" : false,
+        }}
+        render={({ field, fieldState: { error } }) => (
           <Select
             {...field}
             options={options}
-            required={required ? true : false}
             isDisabled={disabled}
             styles={customStyles}
             placeholder=""
@@ -177,6 +183,7 @@ export default function CustomSelect({
               field.onChange(option?.value);
               if (option && customOnChange) customOnChange(option.value);
             }}
+            error={error}
           />
         )}
       />

@@ -12,9 +12,11 @@ export default function Input({
   watch,
   max = 255,
 }) {
-  const value = watch(name);
+  const value = watch ? watch(name) || "" : "";
+
   return (
     <div className="flex flex-col gap-[10px]">
+      {/* Label */}
       <label
         className={clsx(
           "text-firago font-[400] text-[16px] leading-[100%]",
@@ -23,22 +25,29 @@ export default function Input({
       >
         {title} {required && "*"}
       </label>
+
+      {/* Input Field with Validation */}
       <Controller
         control={control}
         name={name}
-        rules={{ required: required?.toString() }}
-        render={({ field }) => (
+        rules={{
+          required: required ? "აუცილებელი ველი" : false,
+          minLength: min > 0 ? { value: min, message: `მინიმალური ${min} სიმბოლო` } : undefined,
+          maxLength: { value: max, message: `მაქსიმუმ ${max} სიმბოლო` },
+        }}
+        render={({ field, fieldState: { error } }) => (
           <input
             {...field}
             placeholder={placeholder}
-            required={required ? true : false}
-            minLength={min}
-            maxLength={max}
             disabled={disabled}
-            className="text-firago text-[300] text-[14px] leading-[100%] bg-[#FFFFFF] border-[1px] border-[#DEE2E6] p-[14px] gap-[10px] rounded-[5px] focus:outline-[#8338EC]"
+            className={clsx(
+              "text-firago text-[300] text-[14px] leading-[100%] bg-[#FFFFFF] border-[1px] border-[#DEE2E6] p-[14px] gap-[10px] rounded-[5px] focus:outline-[#8338EC]",
+              error && "border-[#FA4D4D]"
+            )}
           />
         )}
       />
+
       <div className="flex flex-col gap-[4px]">
         <p
           className={clsx(

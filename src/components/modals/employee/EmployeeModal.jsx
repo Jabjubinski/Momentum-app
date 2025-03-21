@@ -4,19 +4,16 @@ import Modal from "../Modal";
 import CustomInput from "../../inputs/Selects/CustomInput";
 import CustomSelect from "../../inputs/Selects/CustomSelect";
 import UploadAvatar from "../../inputs/avatar/UploadAvatar";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchDepartments } from "../../../redux/thunks/departmentsThunk";
 
 import { useDispatch, useSelector } from "react-redux";
 import { postEmployee } from "../../../redux/thunks/employeesThunks";
-import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function EmployeeModal() {
-  const [isLoading, setIsLoading] = useState(false);
-
   const { onClose, isOpen } = useEmployeeModal();
-
+  const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const { data: departmentsData, status: departmentsStatus } = useSelector(
@@ -54,10 +51,10 @@ export default function EmployeeModal() {
     formData.append("surname", data.surname);
     formData.append("department_id", data.department_id.toString());
     if (data.avatar) formData.append("avatar", data.avatar[0]);
-    setIsLoading(true);
+
+    setLoading(true);
     dispatch(postEmployee({ formData: formData })).then((response) => {
       if (response.meta.requestStatus == "fulfilled") {
-        setIsLoading(false);
         toast.success("თანამშრომლი წარმატებით დაემატა!");
         reset({
           name: "",
@@ -128,12 +125,16 @@ export default function EmployeeModal() {
       <div className="col-span-full flex gap-[22px] justify-end items-center">
         <button
           type="button"
+          disabled={isLoading}
           onClick={handleCancel}
           className="rounded-[5px] cursor-pointer px-[16px] py-[10px] border-[1px] border-[#8338EC] text-[#343A40] bg-white font-firago font-[400] text-[16px] leading-[100%] text-center"
         >
           გაუქმება
         </button>
-        <button disabled={isLoading} className="rounded-[5px] px-[16px] py-[10px] border-[1px] cursor-pointer border-[#8338EC] text-white bg-[#8338EC] font-firago font-[400] text-[16px] leading-[100%] text-center">
+        <button
+          disabled={isLoading}
+          className="rounded-[5px] px-[16px] py-[10px] border-[1px] cursor-pointer border-[#8338EC] text-white bg-[#8338EC] font-firago font-[400] text-[16px] leading-[100%] text-center"
+        >
           დაამატე თანამშრომელი
         </button>
       </div>

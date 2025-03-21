@@ -10,7 +10,7 @@ import { fetchStatuses } from "../redux/thunks/statusesThunk";
 import { fetchPriorities } from "../redux/thunks/prioritiesThunk";
 import { fetchDepartments } from "../redux/thunks/departmentsThunk";
 import { postTasks } from "../redux/thunks/tasksThunk";
-import DateInput from "../components/inputs/calendar/DateInput"
+import DateInput from "../components/inputs/calendar/DateInput";
 
 import { useNavigate } from "react-router-dom";
 import useEmployeeModal from "../hooks/useEmployeeModal";
@@ -77,6 +77,7 @@ export default function CreateTaskPage() {
 
   const currentDate = new Date();
   const { control, handleSubmit, watch, reset, setValue } = useForm({
+    mode: "onChange",
     defaultValues: {
       name: "",
       description: "",
@@ -97,7 +98,7 @@ export default function CreateTaskPage() {
     dispatch(postTasks({ data: data })).then((response) => {
       setLoading(false);
       if (response.meta.requestStatus == "fulfilled") {
-        toast.success("დავალება წარმატებით დაემატა!");
+        toast.error("დავალება წარმატებით დაემატა!");
         navigate("/");
         reset({
           name: "",
@@ -172,7 +173,6 @@ export default function CreateTaskPage() {
           name="description"
           placeholder=""
           min={4}
-          required={"ჩაწერეთ აღწერა"}
           max={255}
           title="აღწერა"
           control={control}
@@ -211,9 +211,10 @@ export default function CreateTaskPage() {
           <Controller
             control={control}
             name="due_date"
-            rules={{ required: "აირჩიეთ თარიღი " }}
-            render={({ field }) => (
+            rules={{ required: "აირჩიეთ თარიღი" }}
+            render={({ field, fieldState: { error } }) => (
               <DateInput
+                error={error}
                 onChange={(date) => {
                   if (date) {
                     field.onChange(
