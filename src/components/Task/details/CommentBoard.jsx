@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import { useEffect } from "react";
-import { fetchComments } from "../../../redux/thunks/commentsThunk"; 
+import { fetchComments } from "../../../redux/thunks/commentsThunk";
 
 export default function CommentBoard({ taskId }) {
   const dispatch = useDispatch();
@@ -10,7 +10,6 @@ export default function CommentBoard({ taskId }) {
 
   useEffect(() => {
     dispatch(fetchComments({ taskId: taskId }));
-    console.log(taskId)
   }, [dispatch, taskId]);
 
   return (

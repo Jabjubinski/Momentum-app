@@ -82,7 +82,6 @@ const Option = (props) => {
 };
 
 const SingleValue = (props) => {
-  console.log(props.selectProps.error);
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
