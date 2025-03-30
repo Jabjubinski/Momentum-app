@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import TaskPage from "./pages/TaskPage";
 import CustomOutlet from "./components/CustomOutlet";
@@ -7,8 +6,6 @@ import TaskDetailsPage from "./pages/TaskDetailsPage";
 import Page404 from "./pages/Page404";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <Routes>
       <Route element={<CustomOutlet />}>

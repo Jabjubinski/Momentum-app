@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchTasks, postTasks } from "../thunks/tasksThunk";
+import { putTaskStatus } from "../thunks/taskDetailsthunk";
 
 const initialState = {
   data: [],
@@ -31,6 +32,14 @@ const tasksSlice = createSlice({
       })
       .addCase(fetchTasks.rejected, (state) => {
         state.status = "failed";
+      })
+      .addCase(putTaskStatus.fulfilled, (state, action) => {
+        state.data = state.data.map((_data) => {
+          if (_data.id === action.payload.id) {
+            return action.payload;
+          }
+          return _data;
+        });
       });
   },
 });

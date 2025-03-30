@@ -8,15 +8,14 @@ const getColor = {
   4: "#3A86FF",
 };
 
-export default function TaskBoard({ id, tasks, name }) {
+export default function TaskBoard({ id, children, name }) {
   const color = id ? getColor[id] : "";
   return (
     <div className='rounded-[10px] w-[381px] max-w-[381px] flex flex-col gap-[30px]'>
       <TaskBoardTitle color={color} name={name}/>
       <div className='flex flex-col gap-[30px]'>
-        {tasks.map((task) => (
-          <Task color={color} task={task} key={task.id}/>
-        ))}
+        {children}
+        
       </div>
     </div>
   )
